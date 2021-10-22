@@ -1,3 +1,7 @@
+# 2.2.2
+
+* Fixed issue with default types in responses definitions
+
 # 2.2.1+1
 
 * Fixed Issue ([#265](https://github.com/epam-cross-platform-lab/swagger-dart-code-generator/issues/265))
