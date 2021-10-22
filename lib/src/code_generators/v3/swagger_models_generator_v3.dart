@@ -16,7 +16,12 @@ class SwaggerModelsGeneratorV3 extends SwaggerModelsGenerator {
         ? null
         : components['schemas'] as Map<String, dynamic>?;
 
-    return generateBase(dartCode, fileName, options, schemas ?? {}, true);
+    final responses = components == null
+        ? null
+        : components['responses'] as Map<String, dynamic>?;
+
+    return generateBase(
+        dartCode, fileName, options, schemas ?? {}, responses ?? {}, true);
   }
 
   @override
@@ -61,7 +66,10 @@ class SwaggerModelsGeneratorV3 extends SwaggerModelsGenerator {
       }
     });
 
-    return generateBase(dartCode, fileName, options, result, false);
+    final responsesMap = components['responses'] as Map<String, dynamic>?;
+
+    return generateBase(
+        dartCode, fileName, options, result, responsesMap ?? {}, false);
   }
 
   @override
@@ -106,7 +114,7 @@ class SwaggerModelsGeneratorV3 extends SwaggerModelsGenerator {
       }
     });
 
-    return generateBase(dartCode, fileName, options, result, false);
+    return generateBase(dartCode, fileName, options, result, {}, false);
   }
 
   @override

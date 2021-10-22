@@ -27,6 +27,7 @@ abstract class SwaggerModelsGenerator {
       String className,
       Map<String, dynamic> map,
       Map<String, dynamic> schemas,
+      Map<String, dynamic> responses,
       List<DefaultValueMap> defaultValues,
       bool useDefaultNullForLists,
       List<String> allEnumNames,
@@ -54,6 +55,7 @@ abstract class SwaggerModelsGenerator {
       className,
       map,
       schemas,
+      responses,
       defaultValues,
       useDefaultNullForLists,
       allEnumNames,
@@ -155,6 +157,7 @@ abstract class SwaggerModelsGenerator {
       String fileName,
       GeneratorOptions options,
       Map<String, dynamic> classes,
+      Map<String, dynamic> responses,
       bool generateFromJsonToJsonForRequests) {
     final allEnumsNames = getAllEnumNames(dartCode);
     final allEnumListNames = getAllListEnumNames(dartCode);
@@ -185,6 +188,7 @@ abstract class SwaggerModelsGenerator {
         className.pascalCase,
         classes[className] as Map<String, dynamic>,
         classes,
+        responses,
         options.defaultValuesMap,
         options.useDefaultNullForLists,
         allEnumsNames,
@@ -793,6 +797,7 @@ abstract class SwaggerModelsGenerator {
   String generatePropertiesContent(
       Map<String, dynamic> propertiesMap,
       Map<String, dynamic> schemas,
+      Map<String, dynamic> responses,
       String className,
       List<DefaultValueMap> defaultValues,
       bool useDefaultNullForLists,
@@ -812,7 +817,8 @@ abstract class SwaggerModelsGenerator {
           propertiesMap[propertyName] as Map<String, dynamic>;
       final propertyKey = propertyName;
 
-      final basicTypesMap = generateBasicTypesMapFromSchemas(schemas);
+      final basicTypesMap =
+          generateBasicTypesMapFromSchemas(schemas, responses);
 
       propertyName = propertyName.asParameterName();
 
@@ -862,13 +868,20 @@ abstract class SwaggerModelsGenerator {
   }
 
   static Map<String, String> generateBasicTypesMapFromSchemas(
-      Map<String, dynamic> schemas) {
+      Map<String, dynamic> schemas, Map<String, dynamic> responses) {
     final result = <String, String>{};
-    if (schemas.isEmpty) {
+    if (schemas.isEmpty && responses.isEmpty) {
       return result;
     }
 
-    schemas.forEach((key, value) {
+    final allSchemas = {
+      ...schemas,
+      ...responses,
+    };
+
+    allSchemas.addAll(responses);
+
+    allSchemas.forEach((key, value) {
       if (kBasicTypes.contains(value['type'].toString().toLowerCase()) &&
           value['enum'] == null) {
         result.addAll({
@@ -993,6 +1006,7 @@ List<enums.$neededName> ${neededName.camelCase}ListFromJson(
       String className,
       Map<String, dynamic> map,
       Map<String, dynamic> schemas,
+      Map<String, dynamic> responses,
       List<DefaultValueMap> defaultValues,
       bool useDefaultNullForLists,
       List<String> allEnumNames,
@@ -1014,6 +1028,7 @@ List<enums.$neededName> ${neededName.camelCase}ListFromJson(
     final generatedProperties = generatePropertiesContent(
       properties,
       schemas,
+      responses,
       className,
       defaultValues,
       useDefaultNullForLists,

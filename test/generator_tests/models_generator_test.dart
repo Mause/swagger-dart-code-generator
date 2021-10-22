@@ -4,6 +4,7 @@ import 'package:swagger_dart_code_generator/src/code_generators/v3/swagger_model
 import 'package:swagger_dart_code_generator/src/models/generator_options.dart';
 import 'package:test/test.dart';
 import '../code_examples.dart';
+import 'test_data.dart';
 
 void main() {
   final generator = SwaggerModelsGeneratorV3();
@@ -326,6 +327,7 @@ void main() {
           className,
           map,
           {},
+          {},
           <DefaultValueMap>[],
           useDefaultNullForLists,
           [],
@@ -346,6 +348,7 @@ void main() {
       final result = generator2.generateModelClassContent(
           className,
           map,
+          {},
           {},
           <DefaultValueMap>[],
           useDefaultNullForLists,
@@ -450,6 +453,7 @@ void main() {
       final result = generator.generatePropertiesContent(
           map,
           {},
+          {},
           className,
           <DefaultValueMap>[],
           false,
@@ -474,6 +478,7 @@ void main() {
       final result = generator.generatePropertiesContent(
           map,
           {},
+          {},
           className,
           <DefaultValueMap>[],
           false,
@@ -496,6 +501,7 @@ void main() {
       final result = generator.generatePropertiesContent(
           map,
           {},
+          {},
           className,
           <DefaultValueMap>[],
           false,
@@ -517,6 +523,7 @@ void main() {
       const fieldExpectedResult = 'final Pet? \$with';
       final result = generator.generatePropertiesContent(
           map,
+          {},
           {},
           className,
           <DefaultValueMap>[],

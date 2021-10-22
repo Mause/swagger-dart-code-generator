@@ -10,7 +10,8 @@ class SwaggerModelsGeneratorV2 extends SwaggerModelsGenerator {
   String generate(String dartCode, String fileName, GeneratorOptions options) {
     final dynamic map = jsonDecode(dartCode);
     final definitions = map['definitions'] as Map<String, dynamic>?;
-    return generateBase(dartCode, fileName, options, definitions ?? {}, true);
+    return generateBase(
+        dartCode, fileName, options, definitions ?? {}, {}, true);
   }
 
   @override
